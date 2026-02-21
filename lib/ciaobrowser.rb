@@ -15,6 +15,10 @@ module Ciaobrowser
     def config
       @config ||= Configuration.new
     end
+
+    def agent(user:)
+      Agent.new(user: user)
+    end
   end
 end
 
