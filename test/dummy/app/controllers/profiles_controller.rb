@@ -3,63 +3,60 @@
 class ProfilesController < ApplicationController
   before_action :set_profile, only: %i[show edit update destroy deactivate]
 
-  # GET /profiles
-  def index
-    @profiles = Profile.all
-  end
-
-  # GET /profiles/1
+  # GET /profile
   def show; end
 
-  # GET /profiles/new
+  # GET /profile/new
   def new
-    @profile = Profile.new
+    @profile = current_user.build_profile
   end
 
-  # GET /profiles/1/edit
+  # GET /profile/edit
   def edit; end
 
-  # POST /profiles
+  # POST /profile
   def create
-    @profile = Profile.new(profile_params)
+    @profile = current_user.build_profile(profile_params)
 
     if @profile.save
-      redirect_to @profile, notice: "Profile was successfully created."
+      redirect_to profile_path, notice: "Profile was successfully created."
     else
       render :new, status: :unprocessable_content
     end
   end
 
-  # PATCH/PUT /profiles/1
+  # PATCH/PUT /profile
   def update
     if @profile.update(profile_params)
-      redirect_to @profile, notice: "Profile was successfully updated.", status: :see_other
+      redirect_to profile_path, notice: "Profile was successfully updated.", status: :see_other
     else
       render :edit, status: :unprocessable_content
     end
   end
 
-  # DELETE /profiles/1
+  # DELETE /profile
   def destroy
     @profile.destroy!
-    redirect_to profiles_path, notice: "Profile was successfully destroyed.", status: :see_other
+    redirect_to root_path, notice: "Profile was successfully destroyed.", status: :see_other
   end
 
-  # POST /profiles/1/deactivate
+  # POST /profile/deactivate
   def deactivate
     @profile.update!(active: false)
-    redirect_to @profile, notice: "Profile was deactivated.", status: :see_other
+    redirect_to profile_path, notice: "Profile was deactivated.", status: :see_other
   end
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_profile
-    @profile = Profile.find(params.expect(:id))
+    @profile = current_user.profile
   end
 
-  # Only allow a list of trusted parameters through.
   def profile_params
     params.expect(profile: %i[name bio active])
+  end
+
+  def current_user
+    Current.user
   end
 end

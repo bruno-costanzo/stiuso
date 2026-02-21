@@ -2,19 +2,13 @@
 
 module Profiles
   class DestroyTool < ApplicationTool
-    description "Destroy a profile by id and redirect to the profiles list."
+    description "Destroys the current user's profile and redirects to the root path."
 
-    arguments do
-      required(:id)
-        .filled(:integer)
-        .description("Profile id from the route.")
-    end
-
-    def call(id:)
+    def call
       result = Ciaobrowser::Dispatcher.call(
-        path: "/profiles/:id",
+        path: "/profile",
         method: "DELETE",
-        params: { id: id },
+        params: {},
         user: current_user
       )
 

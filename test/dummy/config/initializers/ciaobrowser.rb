@@ -15,4 +15,13 @@ Ciaobrowser.configure do |config|
     )
     env["HTTP_AUTHORIZATION"] = "Bearer #{session.token}"
   }
+
+  config.user_context = lambda { |user|
+    profile = user.profile
+    if profile
+      "- User ID: #{user.id}\n- Email: #{user.email_address}\n- Has profile: yes\n- Profile name: #{profile.name}"
+    else
+      "- User ID: #{user.id}\n- Email: #{user.email_address}\n- Has profile: no"
+    end
+  }
 end

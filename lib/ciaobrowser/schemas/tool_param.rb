@@ -4,6 +4,7 @@ require "ruby_llm/schema"
 
 module Ciaobrowser
   module Schemas
+    # Schema for structured output: defines a tool parameter
     class ToolParam < RubyLLM::Schema
       name "tool_param"
 

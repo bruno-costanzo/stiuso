@@ -2,19 +2,13 @@
 
 module Profiles
   class ShowTool < ApplicationTool
-    description "Fetch and display a single profile by id."
+    description "Shows the current user's profile (loads current_user.profile and renders show)."
 
-    arguments do
-      required(:id)
-        .filled(:integer)
-        .description("Profile id from the route.")
-    end
-
-    def call(id:)
+    def call
       result = Ciaobrowser::Dispatcher.call(
-        path: "/profiles/:id",
+        path: "/profile",
         method: "GET",
-        params: { id: id },
+        params: {},
         user: current_user
       )
 

@@ -2,22 +2,19 @@
 
 module Profiles
   class UpdateTool < ApplicationTool
-    description "Update an existing profile and redirect to it on success; re-render form on validation failure."
+    description "Updates the current user's profile with permitted profile params, then redirects to /profile on success or re-renders the edit form on failure."
 
     arguments do
-      required(:id)
-        .filled(:integer)
-        .description("Profile id from the route.")
       required(:profile)
         .hash
-        .description("Profile attributes. Nested fields: name (string), bio (string/text), active (bool).")
+        .description("Profile attributes payload. Permitted nested keys: name (string), bio (string/text), active (bool).")
     end
 
-    def call(id:, profile:)
+    def call(profile:)
       result = Ciaobrowser::Dispatcher.call(
-        path: "/profiles/:id",
+        path: "/profile",
         method: "PUT",
-        params: { id: id, profile: profile },
+        params: { profile: profile },
         user: current_user
       )
 

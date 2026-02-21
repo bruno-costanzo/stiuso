@@ -4,6 +4,7 @@ require "ruby_llm/schema"
 
 module Ciaobrowser
   module Schemas
+    # Schema for structured output: defines a single MCP tool to generate
     class ToolDefinition < RubyLLM::Schema
       name "tool_definition"
       description "Definition of an MCP tool to generate"

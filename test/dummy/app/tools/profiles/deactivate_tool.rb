@@ -2,19 +2,13 @@
 
 module Profiles
   class DeactivateTool < ApplicationTool
-    description "Deactivate a profile by setting active=false, then redirect to the profile."
+    description "Deactivates the current user's profile by setting active=false, then redirects to /profile."
 
-    arguments do
-      required(:id)
-        .filled(:integer)
-        .description("Profile id from the route.")
-    end
-
-    def call(id:)
+    def call
       result = Ciaobrowser::Dispatcher.call(
-        path: "/profiles/:id/deactivate",
+        path: "/profile/deactivate",
         method: "POST",
-        params: { id: id },
+        params: {},
         user: current_user
       )
 

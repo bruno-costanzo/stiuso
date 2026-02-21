@@ -2,17 +2,17 @@
 
 module Profiles
   class CreateTool < ApplicationTool
-    description "Create a new profile and redirect to it on success; re-render form on validation failure."
+    description "Creates a profile for the current user using permitted profile params, then redirects to /profile on success or re-renders the new form on failure."
 
     arguments do
       required(:profile)
         .hash
-        .description("Profile attributes. Nested fields: name (string), bio (string/text), active (bool).")
+        .description("Profile attributes payload. Permitted nested keys: name (string), bio (string/text), active (bool).")
     end
 
     def call(profile:)
       result = Ciaobrowser::Dispatcher.call(
-        path: "/profiles",
+        path: "/profile",
         method: "POST",
         params: { profile: profile },
         user: current_user

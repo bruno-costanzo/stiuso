@@ -7,7 +7,9 @@ module Ciaobrowser
                   :authenticate_request,
                   :resolve_user,
                   :mcp_url,
-                  :agent_model
+                  :agent_model,
+                  :agent_system_prompt,
+                  :user_context
 
     def initialize
       @generator_model = ENV.fetch("GENERATOR_MODEL", "claude-sonnet-4-20250514")
@@ -15,6 +17,8 @@ module Ciaobrowser
       @resolve_user = nil
       @mcp_url = ENV.fetch("MCP_URL", "http://localhost:3000/mcp")
       @agent_model = ENV.fetch("AGENT_MODEL", "claude-sonnet-4-20250514")
+      @agent_system_prompt = nil
+      @user_context = nil
     end
   end
 end

@@ -6,6 +6,14 @@ AllCops:
   TargetRubyVersion: 3.2
   NewCops: enable
   SuggestExtensions: false
+  Exclude:
+    - "test/dummy/db/schema.rb"
+    - "test/dummy/app/tools/**/*"
+
+Metrics/BlockLength:
+  Exclude:
+    - "test/dummy/db/schema.rb"
+    - "ciaobrowser.gemspec"
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes
