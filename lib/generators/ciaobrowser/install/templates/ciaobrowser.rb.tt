@@ -1,0 +1,18 @@
+# frozen_string_literal: true
+
+Ciaobrowser.configure do |config|
+  config.generator_model = "claude-sonnet-4-20250514"
+
+  # Resolve current_user from MCP headers
+  # The @headers hash is available in all MCP tools via fast-mcp
+  # config.resolve_user = ->(headers) {
+  #   user_id = headers&.dig("x-user-id")
+  #   User.find_by(id: user_id)
+  # }
+
+  # Inject auth into Rack env for Dispatcher (optional, for Devise/Warden)
+  # config.authenticate_request = ->(env, user) {
+  #   warden = env["warden"]
+  #   warden.set_user(user, scope: :user) if warden
+  # }
+end

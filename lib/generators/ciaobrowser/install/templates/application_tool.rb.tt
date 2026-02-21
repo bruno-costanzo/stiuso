@@ -1,0 +1,15 @@
+# frozen_string_literal: true
+
+class ApplicationTool < ActionTool::Base
+  private
+
+  def current_user
+    return @current_user if defined?(@current_user)
+
+    @current_user = if Ciaobrowser.config.resolve_user
+      Ciaobrowser.config.resolve_user.call(@headers)
+    else
+      nil
+    end
+  end
+end

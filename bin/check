@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+Dir.chdir(File.expand_path("..", __dir__))
+
+system("bundle", "exec", "rubocop", "-A") || exit(1)
+system("bundle", "exec", "rake", "test") || exit(1)
+
+puts "\n✓ All checks passed"

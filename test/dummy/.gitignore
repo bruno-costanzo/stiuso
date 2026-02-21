@@ -1,0 +1,4 @@
+.env
+config/master.key
+storage/*.sqlite3
+log/*.log

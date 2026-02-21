@@ -1,0 +1,42 @@
+# frozen_string_literal: true
+
+module <%= @namespace %>
+  class <%= @class_name %> < ApplicationTool
+    description "<%= @description %>"
+<% if @params.any? -%>
+
+    arguments do
+<% @params.each do |param| -%>
+<% if param[:type] == "hash" -%>
+      <%= param[:required] ? "required" : "optional" %>(:<%= param[:name] %>)
+        .hash
+        .description("<%= param[:description] %>")
+<% else -%>
+      <%= param[:required] ? "required" : "optional" %>(:<%= param[:name] %>)
+        .filled(:<%= param[:type] %>)
+        .description("<%= param[:description] %>")
+<% end -%>
+<% end -%>
+    end
+<% end -%>
+
+<% if @params.any? -%>
+    def call(<%= @params.map { |p| "#{p[:name]}:" }.join(", ") %>)
+<% else -%>
+    def call
+<% end -%>
+      result = Ciaobrowser::Dispatcher.call(
+        path: "<%= @path %>",
+        method: "<%= @http_method %>",
+<% if @params.any? -%>
+        params: { <%= @params.map { |p| "#{p[:name]}: #{p[:name]}" }.join(", ") %> },
+<% else -%>
+        params: {},
+<% end -%>
+        user: current_user
+      )
+
+      result[:body]
+    end
+  end
+end
