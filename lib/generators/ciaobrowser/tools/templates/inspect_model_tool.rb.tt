@@ -1,0 +1,16 @@
+# frozen_string_literal: true
+
+module <%= @namespace %>
+  class InspectModelTool < ApplicationTool
+    description "Returns schema info for <%= @model_name %> model: columns, enums, validations, associations. Call this to understand what data the model accepts."
+
+    def call
+      {
+        columns: <%= @model_name %>.columns.map { |c| { name: c.name, type: c.type } },
+        enums: <%= @model_name %>.defined_enums,
+        validations: <%= @model_name %>.validators.map { |v| { attributes: v.attributes, kind: v.kind } },
+        associations: <%= @model_name %>.reflect_on_all_associations.map { |a| { name: a.name, type: a.macro } }
+      }.to_json
+    end
+  end
+end

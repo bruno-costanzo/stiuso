@@ -18,8 +18,11 @@ module Ciaobrowser
           generate_tool(tool)
         end
 
+        generate_inspect_model_tool if model_class
+
+        total = tool_definitions.size + (model_class ? 1 : 0)
         say ""
-        say "Generated #{tool_definitions.size} tools!", :green
+        say "Generated #{total} tools!", :green
       end
 
       private
@@ -43,6 +46,23 @@ module Ciaobrowser
 
         folder = @namespace.underscore
         template "tool.rb.tt", "app/tools/#{folder}/#{tool[:file_name]}"
+      end
+
+      def generate_inspect_model_tool
+        @namespace = controller_name.camelize
+        @model_name = model_class.name
+
+        folder = @namespace.underscore
+        template "inspect_model_tool.rb.tt", "app/tools/#{folder}/inspect_model_tool.rb"
+      end
+
+      def model_class
+        @model_class ||= begin
+          model_name = controller_name.singularize.camelize
+          model_name.constantize
+        rescue NameError
+          nil
+        end
       end
     end
   end
